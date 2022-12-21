@@ -1,13 +1,16 @@
-package com.training.htmlparser.model;
+package com.training.htmlparser.model.fetchers;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HtmlFetcher {
 	private String content;
 	private URLConnection connection;
+	private ArrayList<String> skipTags = new ArrayList<>(List.of("style","head"));
 
 	public HtmlFetcher(String url) {
 		try {
@@ -24,6 +27,22 @@ public class HtmlFetcher {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(content);
+		System.out.print(content);
+	}
+
+	public String extractContent(){
+//		content.toCharArray().
+
+		return "";
+	}
+
+	public void parseChars(char character){
+
+		switch(character){
+			case '<':
+
+			case '>':
+
+		}
 	}
 }
