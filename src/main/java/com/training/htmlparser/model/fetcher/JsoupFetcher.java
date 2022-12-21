@@ -8,27 +8,27 @@ import java.io.IOException;
 import java.util.List;
 
 public class JsoupFetcher extends Fetcher {
-	private Document doc;
+    private Document doc;
 
-	public JsoupFetcher(String url) {
-		try {
-			this.doc = Jsoup.connect(url).get();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public JsoupFetcher(String url) {
+        try {
+            this.doc = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public void processWordContent() {
-		recursiveExtract(this.doc);
-	}
+    @Override
+    public void processWordContent() {
+        recursiveExtract(this.doc);
+    }
 
-	private void recursiveExtract(Element element) {
-		if (!super.skipTags.contains(element.nodeName()))
-			if (element.hasText()) {
-				super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" ")));
-			}
-		for (Element child : element.children())
-			recursiveExtract(child);
-	}
+    private void recursiveExtract(Element element) {
+        if (!super.skipTags.contains(element.nodeName()))
+            if (element.hasText()) {
+                super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" ")));
+            }
+        for (Element child : element.children())
+            recursiveExtract(child);
+    }
 }
