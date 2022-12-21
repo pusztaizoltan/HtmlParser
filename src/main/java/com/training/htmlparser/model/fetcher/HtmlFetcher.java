@@ -1,4 +1,4 @@
-package com.training.htmlparser.model.fetchers;
+package com.training.htmlparser.model.fetcher;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,11 +6,14 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+public class HtmlFetcher implements Fetcher {
+/*
+ this implementation is not ready to use
+*/
 
-public class HtmlFetcher {
 	private String content;
 	private URLConnection connection;
-	private ArrayList<String> skipTags = new ArrayList<>(List.of("style","head"));
+	private final ArrayList<String> skipTags = new ArrayList<>(List.of("style", "head"));
 
 	public HtmlFetcher(String url) {
 		try {
@@ -30,19 +33,12 @@ public class HtmlFetcher {
 		System.out.print(content);
 	}
 
-	public String extractContent(){
-//		content.toCharArray().
-
-		return "";
+	@Override
+	public List<String> getWordContent() {
+		return null;
 	}
 
-	public void parseChars(char character){
-
-		switch(character){
-			case '<':
-
-			case '>':
-
-		}
+	@Override
+	public void processWordContent() {
 	}
 }

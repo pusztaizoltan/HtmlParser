@@ -8,19 +8,19 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WordsStoreImpl implements WordsStore {
-	Set<String> skipWords = new HashSet<>();
-	Map<String, Integer> contentMap = new HashMap<>();
+	private final Set<String> skipWords = new HashSet<>();
+	private final Map<String, Integer> contentMap = new HashMap<>();
 
-	private boolean isSkipable(String word) {
+	private boolean isSkippable(String word) {
 		return skipWords.contains(word);
 	}
 
 	@Override
 	public void store(String word) {
 		String rawWord = word.toLowerCase();
-		if (!isSkipable(rawWord)) {
+		if (!isSkippable(rawWord)) {
 			if (contentMap.containsKey(rawWord)) {
-				contentMap.compute(word, (key, value) -> value++);
+				contentMap.compute(word, (key, value) -> (value == null) ? 1 : value + 1);
 			} else {
 				contentMap.put(word, 1);
 			}
@@ -32,12 +32,12 @@ public class WordsStoreImpl implements WordsStore {
 		skipWords.add(word.toLowerCase());
 	}
 
-	public List<String> getTenMostFrequent(){
+	public List<String> getMostFrequent(int limit) {
 		return contentMap.entrySet()
 		                 .stream()
-		                 .sorted()
-		                 .limit(10)
-		                 .map(i->i.getKey())
+		                 .sorted((i, j) -> j.getValue() - i.getValue())
+		                 .limit(limit)
+		                 .map(Map.Entry::getKey)
 		                 .collect(Collectors.toList());
 	}
 }
