@@ -24,11 +24,13 @@ public class JsoupFetcher extends Fetcher {
     }
 
     private void recursiveExtract(Element element) {
-        if (!super.skipTags.contains(element.nodeName()))
+        if (!super.skipTags.contains(element.nodeName())) {
             if (element.hasText()) {
                 super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" ")));
             }
-        for (Element child : element.children())
+        }
+        for (Element child : element.children()) {
             recursiveExtract(child);
+        }
     }
 }

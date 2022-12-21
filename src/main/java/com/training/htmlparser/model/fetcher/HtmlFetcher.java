@@ -6,9 +6,9 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 public class HtmlFetcher extends Fetcher {
-/*
- this implementation is not ready to use
-*/
+    /*
+    * this implementation is not ready to use
+    */
     private String doc;
     private URLConnection connection;
 
