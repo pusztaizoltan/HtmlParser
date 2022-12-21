@@ -2,6 +2,7 @@ package com.training.htmlparser.model.fetchers;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class JsoupFetcher {
 	Document doc;
-	private ArrayList<String> skipTags = new ArrayList<>(List.of("style","head"));
+	private ArrayList<String> skipTags = new ArrayList<>(List.of("style","head","em"));
 
 	public JsoupFetcher(String url) {
 		try {
@@ -19,9 +20,18 @@ public class JsoupFetcher {
 		}
 	}
 	public void show(){
-		System.out.println(doc);
+		recursiveShow(doc);
 	}
 
+	public void recursiveShow(Element element){
+		if(!skipTags.contains(element.nodeName()))
+			if(element.hasText()) {
+				System.out.println(element.nodeName());
+				System.out.println(element.text());
+			}
+		for(Element child : element.children())
+			recursiveShow(child);
+	}
 
 
 
