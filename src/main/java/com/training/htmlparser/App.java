@@ -5,9 +5,13 @@ import com.training.htmlparser.model.WordsStoreImpl;
 import com.training.htmlparser.model.fetcher.Fetcher;
 import com.training.htmlparser.model.fetcher.JsoupFetcher;
 
+import java.util.List;
+
 public class App {
 	public static void main(String[] args) {
 		Fetcher fetcher = new JsoupFetcher("https://justinjackson.ca/words.html");
+		fetcher.addSkipTag("head");
+		fetcher.addSkipTag("style");
 		fetcher.processWordContent();
 		WordsStore wordsStore = new WordsStoreImpl();
 		for (String word : fetcher.getWordContent()) {

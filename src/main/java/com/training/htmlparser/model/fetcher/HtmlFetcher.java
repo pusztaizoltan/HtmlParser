@@ -39,6 +39,10 @@ public class HtmlFetcher implements Fetcher {
 	}
 
 	@Override
+	public void addSkipTag(String tag) {
+	}
+
+	@Override
 	public void processWordContent() {
 	}
 }

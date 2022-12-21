@@ -11,7 +11,7 @@ import java.util.List;
 public class JsoupFetcher implements Fetcher {
 	private Document doc;
 	private final List<String> wordContent = new ArrayList<>();
-	private final ArrayList<String> skipTags = new ArrayList<>(List.of("style", "head"));
+	private final ArrayList<String> skipTags = new ArrayList<>();
 
 	public JsoupFetcher(String url) {
 		try {
@@ -21,6 +21,7 @@ public class JsoupFetcher implements Fetcher {
 		}
 	}
 
+	@Override
 	public void processWordContent() {
 		recursiveExtract(this.doc);
 	}
@@ -39,4 +40,8 @@ public class JsoupFetcher implements Fetcher {
 		return this.wordContent;
 	}
 
+	@Override
+	public void addSkipTag(String tag) {
+		skipTags.add(tag);
+	}
 }

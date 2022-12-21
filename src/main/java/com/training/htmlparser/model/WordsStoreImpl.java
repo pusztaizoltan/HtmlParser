@@ -32,6 +32,7 @@ public class WordsStoreImpl implements WordsStore {
 		skipWords.add(word.toLowerCase());
 	}
 
+	@Override
 	public List<String> getMostFrequent(int limit) {
 		return contentMap.entrySet()
 		                 .stream()
