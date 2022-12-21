@@ -6,7 +6,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-public class HtmlFetcher implements Fetcher {
+public class HtmlFetcher extends Fetcher {
 /*
  this implementation is not ready to use
 */
@@ -31,15 +31,6 @@ public class HtmlFetcher implements Fetcher {
 			e.printStackTrace();
 		}
 		System.out.print(content);
-	}
-
-	@Override
-	public List<String> getWordContent() {
-		return null;
-	}
-
-	@Override
-	public void addSkipTag(String tag) {
 	}
 
 	@Override

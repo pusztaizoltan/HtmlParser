@@ -1,11 +1,19 @@
 package com.training.htmlparser.model.fetcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Fetcher {
-	List<String> getWordContent();
+public abstract class Fetcher {
+	protected final List<String> wordContent = new ArrayList<>();
+	protected final ArrayList<String> skipTags = new ArrayList<>();
 
-	void addSkipTag(String tag);
+	public List<String> getWordContent(){
+		return this.wordContent;
+	};
 
-	void processWordContent();
+	public void addSkipTag(String tag){
+		this.skipTags.add(tag);
+	};
+
+	public abstract void processWordContent();
 }
