@@ -3,21 +3,20 @@ package com.training.htmlparser.model.fetcher;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 public class HtmlFetcher extends Fetcher {
 /*
  this implementation is not ready to use
 */
 
-	private String content;
+	private String doc;
 	private URLConnection connection;
-	private final ArrayList<String> skipTags = new ArrayList<>(List.of("style", "head"));
+
 
 	public HtmlFetcher(String url) {
 		try {
 			this.connection = new URL(url).openConnection();
+			fetch();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -26,11 +25,10 @@ public class HtmlFetcher extends Fetcher {
 	public void fetch() {
 		try (Scanner scanner = new Scanner(connection.getInputStream())) {
 			scanner.useDelimiter("\\Z");
-			content = scanner.next();
+			doc = scanner.next();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.print(content);
 	}
 
 	@Override
