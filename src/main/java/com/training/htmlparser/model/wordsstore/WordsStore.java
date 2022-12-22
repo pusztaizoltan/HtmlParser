@@ -1,5 +1,6 @@
 package com.training.htmlparser.model.wordsstore;
 
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.Selector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class WordsStore {
+public class WordsStore {
     private static final Logger LOGGER = Logger.getLogger(WordsStore.class.getName());
     protected final Map<String, Integer> contentMap = new HashMap<>();
     private final Set<String> skipWords = new HashSet<>();
@@ -40,16 +41,19 @@ public abstract class WordsStore {
      * given that when words are ready to be stored from a fetching
      * process, they are ready en masse rather than one by one.
      */
-    public synchronized void storeAll(List<String> words) {
-        for(String word: words) {
-            store(word);
+    public synchronized void storeAll(@NotNull List<String> words) {
+        for (String word : words) {
+            this.store(word);
         }
     }
 
     /**
      * Select one or multiple element from contentMap field.
-     * Selection strategy is specific to and implemented by subClasses.
+     * Selection strategies are specific to and
+     * implemented in switchable interface implementations
      */
     @NotNull
-    public abstract List<String> select();
+    public List<String> selectBy(@NotNull Selector selectorAlgorithm){
+        return selectorAlgorithm.selectFrom(this.contentMap);
+    };
 }

@@ -1,4 +1,4 @@
-package com.training.htmlparser.model.wordsstore;
+package com.training.htmlparser.model.wordsstore.selectoralgorithms;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class WordsStoreOfTenMostFrequentNonStream extends WordsStore {
+public class TenMostFrequentNonStream implements Selector{
     private static final Comparator<Map.Entry<String, Integer>> BY_DESCENDING_VALUE = (a, b) -> b.getValue() - a.getValue();
     private static final int SELECTION_LIMIT = 10;
 
     @Override
-    public List<String> select() {
-        TreeSet<Map.Entry<String, Integer>> selected = getTenMostFrequent();
+    public List<String> selectFrom(Map<String, Integer> content) {
+        TreeSet<Map.Entry<String, Integer>> selected = getTenMostFrequent(content);
         int formatterMargin = selected.stream().mapToInt(entry -> entry.getKey().length()).max().orElse(0);
         return selected.stream()
                        .map(entry -> formatToMargin(entry, formatterMargin))
@@ -28,9 +28,9 @@ public class WordsStoreOfTenMostFrequentNonStream extends WordsStore {
     }
 
     @NotNull
-    private TreeSet<Map.Entry<String, Integer>> getTenMostFrequent() {
+    private TreeSet<Map.Entry<String, Integer>> getTenMostFrequent(Map<String, Integer> content) {
         TreeSet<Map.Entry<String, Integer>> collection = new TreeSet<>(BY_DESCENDING_VALUE);
-        for (Map.Entry<String, Integer> entry : super.contentMap.entrySet()) {
+        for (Map.Entry<String, Integer> entry : content.entrySet()) {
             collection.add(entry);
             if (collection.size() > SELECTION_LIMIT) {
                 collection.pollLast();

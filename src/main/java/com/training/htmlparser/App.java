@@ -3,7 +3,8 @@ package com.training.htmlparser;
 import com.training.htmlparser.model.fetcher.Fetcher;
 import com.training.htmlparser.model.fetcher.JsoupFetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
-import com.training.htmlparser.model.wordsstore.WordsStoreOfTenMostFrequentNonStream;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequent;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequentNonStream;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 
 public class App {
-    static WordsStore wordsStore = new WordsStoreOfTenMostFrequentNonStream();
+    static WordsStore wordsStore = new WordsStore();
     static List<String> urls = List.of("https://justinjackson.ca/words.html");
 
     static void setGlobalLoggerVisibility(Level level) {
@@ -35,7 +36,7 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        wordsStore.select().forEach(System.out::println);
+        wordsStore.selectBy(new TenMostFrequentNonStream()).forEach(System.out::println);
     }
 
     public static Runnable fetcherThread(String url) {
