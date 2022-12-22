@@ -10,6 +10,10 @@ public abstract class Fetcher {
     protected final Set<String> skipTags = new HashSet();
     protected final String url;
 
+    /**
+     * Provide implementation framework to subclasses with distinct fetch technologies
+     * Concrete fetch algorithms implemented in the constructors of subclasses
+     */
     protected Fetcher(String url) {
         this.url = url;
     }
@@ -23,8 +27,11 @@ public abstract class Fetcher {
     }
 
     /**
-     * Select one or multiple element from contentMap field.
-     * Selection strategy is specific to and implemented by subClasses
+     * Process the HTML content of the fetched url by extracting
+     * human-visible text content and storing it in wordContent field
+     * word by word.
+     * Implemented in subclasses, given that different fetching technologies
+     * can produce HTML content with different structure.
      */
     public abstract void processWordContent();
 }
