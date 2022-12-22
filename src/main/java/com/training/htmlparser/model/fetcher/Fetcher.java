@@ -1,11 +1,13 @@
 package com.training.htmlparser.model.fetcher;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Fetcher {
     protected final List<String> wordContent = new ArrayList<>();
-    protected final List<String> skipTags = new ArrayList<>(); // TODO ZP: based on current usages I would use a Set
+    protected final Set<String> skipTags = new HashSet();
 
     public List<String> getWordContent() {
         return this.wordContent;
