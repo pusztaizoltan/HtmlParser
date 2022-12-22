@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+// TODO ZP: better name and/or javadoc
 public class WordsStoreImpl implements WordsStore {
     private final Set<String> skipWords = new HashSet<>();
     private final Map<String, Integer> contentMap = new HashMap<>();
@@ -16,9 +17,13 @@ public class WordsStoreImpl implements WordsStore {
     }
 
     @Override
-    public void store(String word) {
+    public void store(String word) { // TODO ZP: @Nullable, @Nonnull annotations (javax)
         String rawWord = word.toLowerCase();
         if (!isSkippable(rawWord)) {
+            // TODO ZP:
+            // Integer value = contentMap.get(word);
+            // contentMap.put(word, value == null ? 1 : value + 1);
+            
             if (contentMap.containsKey(rawWord)) {
                 contentMap.compute(word, (key, value) -> (value == null) ? 1 : value + 1);
             } else {
@@ -33,12 +38,12 @@ public class WordsStoreImpl implements WordsStore {
     }
 
     @Override
-    public List<String> getMostFrequent(int limit) {
+    public List<String> getMostFrequent(int limit) { // TODO ZP: could you please do this without using stream? :)
         return contentMap.entrySet()
                          .stream()
                          .sorted((i, j) -> j.getValue() - i.getValue())
                          .limit(limit)
-                         .map(Map.Entry::getKey)
+                         .map(Map.Entry::getKey) // TODO ZP: 
                          .collect(Collectors.toList());
     }
 }

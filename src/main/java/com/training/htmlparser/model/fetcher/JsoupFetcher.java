@@ -7,13 +7,14 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.util.List;
 
-public class JsoupFetcher extends Fetcher {
+public class JsoupFetcher extends Fetcher {    
     private Document doc;
 
     public JsoupFetcher(String url) {
         try {
             this.doc = Jsoup.connect(url).get();
         } catch (IOException e) {
+            // TODO ZP: logging
             e.printStackTrace();
         }
     }
@@ -26,7 +27,7 @@ public class JsoupFetcher extends Fetcher {
     private void recursiveExtract(Element element) {
         if (!super.skipTags.contains(element.nodeName())) {
             if (element.hasText()) {
-                super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" ")));
+                super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" "))); // TODO ZP: I would replace special characters with different char
             }
         }
         for (Element child : element.children()) {
