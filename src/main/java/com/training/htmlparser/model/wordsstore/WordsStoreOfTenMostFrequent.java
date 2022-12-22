@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-public class WordsStoreImpl extends WordsStore {
+public class WordsStoreOfTenMostFrequent extends WordsStore {
     //    @Nonnull
     @Override
     public List<String> select() { // TODO ZP: could you please do this without using stream? :)

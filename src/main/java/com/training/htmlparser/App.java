@@ -2,14 +2,13 @@ package com.training.htmlparser;
 
 import com.training.htmlparser.model.fetcher.JsoupFetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
-import com.training.htmlparser.model.wordsstore.WordsStoreImpl;
+import com.training.htmlparser.model.wordsstore.WordsStoreOfTenMostFrequent;
 import com.training.htmlparser.model.fetcher.Fetcher;
-import com.training.htmlparser.model.fetcher.HtmlFetcher;
 
 public class App {
     public static void main(String[] args) {
         // outOfThread
-        WordsStore wordsStore = new WordsStoreImpl();
+        WordsStore wordsStore = new WordsStoreOfTenMostFrequent();
 
         // inThread
 //        Fetcher fetcher = new HtmlFetcher("https://justinjackson.ca/words.html");
