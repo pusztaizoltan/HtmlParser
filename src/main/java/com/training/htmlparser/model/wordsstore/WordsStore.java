@@ -36,6 +36,17 @@ public abstract class WordsStore {
     }
 
     /**
+     * Thread safe mass storing, required for multiThreaded access,
+     * given that when words are ready to be stored from a fetching
+     * process, they are ready en masse rather than one by one.
+     */
+    public synchronized void storeAll(List<String> words) {
+        for(String word: words) {
+            store(word);
+        }
+    }
+
+    /**
      * Select one or multiple element from contentMap field.
      * Selection strategy is specific to and implemented by subClasses.
      */

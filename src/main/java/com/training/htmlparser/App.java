@@ -44,9 +44,7 @@ public class App {
             fetcher.addSkipTag("head");
             fetcher.addSkipTag("style");
             fetcher.processWordContent();
-            for (String word : fetcher.getWordContent()) {
-                wordsStore.store(word);
-            }
+            wordsStore.storeAll(fetcher.getWordContent());
         };
     }
 }
