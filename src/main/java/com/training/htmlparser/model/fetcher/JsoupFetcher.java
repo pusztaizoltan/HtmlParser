@@ -6,22 +6,20 @@ import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JsoupFetcher extends Fetcher {
-    private Logger logger;
+    private static final Logger LOGGER = Logger.getLogger(JsoupFetcher.class.getName());
     private Document doc;
 
     public JsoupFetcher(String url) {
         super(url);
         try {
             this.doc = Jsoup.connect(super.url).get();
+            LOGGER.log(Level.INFO, String.format("%s is fetched", super.url));
         } catch (IOException e) {
-            // TODO ZP: logging
-            // java util logger
-            // logg every action not just here
-            // add informative message
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
     }
 
