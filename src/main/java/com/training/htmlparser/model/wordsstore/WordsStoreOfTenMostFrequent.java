@@ -9,7 +9,7 @@ public class WordsStoreOfTenMostFrequent extends WordsStore {
     @Override
     public List<String> select() {
         LinkedHashMap<String, Integer> selected = getTenMostFrequent();
-        int formatterMargin = selected.keySet().stream().mapToInt(key -> key.length()).max().orElse(0) + 1;
+        int formatterMargin = selected.keySet().stream().mapToInt(key -> key.length()).max().orElse(0);
         return selected.entrySet()
                        .stream()
                        .map(entry -> formatToMargin(entry, formatterMargin))
@@ -18,7 +18,7 @@ public class WordsStoreOfTenMostFrequent extends WordsStore {
 
     private String formatToMargin(Map.Entry<String, Integer> entry, int margin) {
         var keyLength = entry.getKey().length();
-        return entry.getKey() + " ".repeat(margin - keyLength) + entry.getValue();
+        return entry.getKey() + " ".repeat(margin - keyLength + 1) + ":" + entry.getValue();
     }
 
     private LinkedHashMap<String, Integer> getTenMostFrequent() {
