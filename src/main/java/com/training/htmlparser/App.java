@@ -39,16 +39,13 @@ public class App {
     }
 
     public static Runnable fetcherThread(String url) {
-        return new Runnable() {
-            @Override
-            public void run() {
-                Fetcher fetcher = new JsoupFetcher(url);
-                fetcher.addSkipTag("head");
-                fetcher.addSkipTag("style");
-                fetcher.processWordContent();
-                for (String word : fetcher.getWordContent()) {
-                    wordsStore.store(word);
-                }
+        return () -> {
+            Fetcher fetcher = new JsoupFetcher(url);
+            fetcher.addSkipTag("head");
+            fetcher.addSkipTag("style");
+            fetcher.processWordContent();
+            for (String word : fetcher.getWordContent()) {
+                wordsStore.store(word);
             }
         };
     }
