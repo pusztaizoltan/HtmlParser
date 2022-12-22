@@ -26,7 +26,7 @@ public abstract class WordsStore {
     }
 
     /**
-     * Select one or multiple element from ContentMap field.
+     * Select one or multiple element from contentMap field.
      * Selection strategy is specific to and implemented by subClasses
      */
     public abstract Map<String, Integer> select();
