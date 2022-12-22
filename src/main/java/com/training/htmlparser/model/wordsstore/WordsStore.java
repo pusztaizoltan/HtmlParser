@@ -1,4 +1,4 @@
-package com.training.htmlparser.model;
+package com.training.htmlparser.model.wordsstore;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.training.htmlparser.model;
+package com.training.htmlparser.model.wordsstore;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,6 +16,7 @@ public class WordsStoreImpl implements WordsStore {
         return skipWords.contains(word);
     }
 
+
     @Override
     public void store(String word) { // TODO ZP: @Nullable, @Nonnull annotations (javax)
         String rawWord = word.toLowerCase();
@@ -25,6 +26,8 @@ public class WordsStoreImpl implements WordsStore {
             // contentMap.put(word, value == null ? 1 : value + 1);
             
             if (contentMap.containsKey(rawWord)) {
+//                contentMap.compute(rawWord, (key, value) ->  value++); //
+
                 contentMap.compute(word, (key, value) -> (value == null) ? 1 : value + 1);
             } else {
                 contentMap.put(word, 1);
@@ -38,12 +41,14 @@ public class WordsStoreImpl implements WordsStore {
     }
 
     @Override
+//    @Nonnull
     public List<String> getMostFrequent(int limit) { // TODO ZP: could you please do this without using stream? :)
         return contentMap.entrySet()
                          .stream()
                          .sorted((i, j) -> j.getValue() - i.getValue())
                          .limit(limit)
-                         .map(Map.Entry::getKey) // TODO ZP: 
+                         .map(Map.Entry::getKey) // TODO ZP: show frequency too
                          .collect(Collectors.toList());
     }
+
 }

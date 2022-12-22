@@ -45,7 +45,7 @@ public class HtmlFetcher extends Fetcher {
         Arrays.stream(doc.split(endTagPattern))
               .map(this::clearSkippableTagContent)
               .flatMap(this::getTextContent)
-              .peek(System.out::print)
+              .peek(System.out::print) //todo
               .flatMap(this::getWords)
 //              .filter(i->!i.isBlank())
               .forEach(super.wordContent::add);
