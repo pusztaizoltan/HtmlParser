@@ -1,5 +1,7 @@
 package com.training.htmlparser.model.wordsstore;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,16 +15,16 @@ public abstract class WordsStore {
     protected final Map<String, Integer> contentMap = new HashMap<>();
     private final Set<String> skipWords = new HashSet<>();
 
-    public void addSkipWord(String word) {
+    public void addSkipWord(@NotNull String word) {
         skipWords.add(word.toLowerCase());
         LOGGER.log(Level.INFO, String.format("Skipword: %s added", word));
     }
 
-    private boolean isSkippable(String word) {
+    private boolean isSkippable(@NotNull String word) {
         return skipWords.contains(word);
     }
 
-    public void store(String word) { // TODO ZP: @Nullable, @Nonnull annotations (javax)
+    public void store(@NotNull String word) {
         String rawWord = word.toLowerCase();
         if (!isSkippable(rawWord)) {
             Integer wordCount = contentMap.get(rawWord);
@@ -37,5 +39,6 @@ public abstract class WordsStore {
      * Select one or multiple element from contentMap field.
      * Selection strategy is specific to and implemented by subClasses.
      */
+    @NotNull
     public abstract List<String> select();
 }

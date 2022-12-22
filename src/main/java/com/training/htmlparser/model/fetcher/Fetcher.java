@@ -1,5 +1,7 @@
 package com.training.htmlparser.model.fetcher;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -14,15 +16,16 @@ public abstract class Fetcher {
      * Provide implementation framework to subclasses with distinct fetch technologies
      * Concrete fetch algorithms implemented in the constructors of subclasses
      */
-    protected Fetcher(String url) {
+    protected Fetcher(@NotNull String url) {
         this.url = url;
     }
 
+    @NotNull
     public List<String> getWordContent() {
         return this.wordContent;
     }
 
-    public void addSkipTag(String tag) {
+    public void addSkipTag(@NotNull String tag) {
         this.skipTags.add(tag);
     }
 

@@ -1,5 +1,6 @@
 package com.training.htmlparser.model.fetcher;
 
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +29,7 @@ public class JsoupFetcher extends Fetcher {
         recursiveExtract(this.doc);
     }
 
-    private void recursiveExtract(Element element) {
+    private void recursiveExtract(@NotNull Element element) {
         if (!super.skipTags.contains(element.nodeName())) {
             if (element.hasText()) {
                 // dont separate pl. I'am stb.

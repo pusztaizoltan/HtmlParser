@@ -1,5 +1,7 @@
 package com.training.htmlparser.model.wordsstore;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +18,13 @@ public class WordsStoreOfTenMostFrequent extends WordsStore {
                        .collect(Collectors.toList());
     }
 
-    private String formatToMargin(Map.Entry<String, Integer> entry, int margin) {
+    @NotNull
+    private String formatToMargin(@NotNull Map.Entry<String, Integer> entry, int margin) {
         var keyLength = entry.getKey().length();
         return entry.getKey() + " ".repeat(margin - keyLength + 1) + ":" + entry.getValue();
     }
 
+    @NotNull
     private LinkedHashMap<String, Integer> getTenMostFrequent() {
         return super.contentMap.entrySet()
                                .stream()
