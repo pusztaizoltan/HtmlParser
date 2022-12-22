@@ -1,5 +1,6 @@
 package com.training.htmlparser;
 
+import com.training.htmlparser.model.fetcher.JsoupFetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
 import com.training.htmlparser.model.wordsstore.WordsStoreImpl;
 import com.training.htmlparser.model.fetcher.Fetcher;
@@ -11,8 +12,8 @@ public class App {
         WordsStore wordsStore = new WordsStoreImpl();
 
         // inThread
-        Fetcher fetcher = new HtmlFetcher("https://justinjackson.ca/words.html");
-//        Fetcher fetcher = new JsoupFetcher("https://justinjackson.ca/words.html");
+//        Fetcher fetcher = new HtmlFetcher("https://justinjackson.ca/words.html");
+        Fetcher fetcher = new JsoupFetcher("https://justinjackson.ca/words.html");
         fetcher.addSkipTag("head");
         fetcher.addSkipTag("style");
         fetcher.processWordContent();
@@ -20,6 +21,6 @@ public class App {
         for (String word : fetcher.getWordContent()) {
             wordsStore.store(word);
         }
-        wordsStore.getMostFrequent(10).forEach(System.out::println);
+        wordsStore.select().forEach(System.out::println);
     }
 }
