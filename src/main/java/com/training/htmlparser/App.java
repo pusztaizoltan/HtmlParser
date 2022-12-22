@@ -18,12 +18,6 @@ public class App {
         for (String word : fetcher.getWordContent()) {
             wordsStore.store(word);
         }
-        wordsStore.select()
-                  .entrySet()
-                  .stream()
-                  .sorted((i, j) -> j.getValue() - i.getValue())
-                  .forEach(i ->
-                          System.out.println(i.getKey() + (i.getKey().length() < 4 ? "\t\t\t" : "\t\t") + i.getValue())
-                  );
+        wordsStore.select().forEach(System.out::println);
     }
 }

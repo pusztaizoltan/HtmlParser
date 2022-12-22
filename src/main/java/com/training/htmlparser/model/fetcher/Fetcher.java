@@ -31,7 +31,7 @@ public abstract class Fetcher {
      * human-visible text content and storing it in wordContent field
      * word by word.
      * Implemented in subclasses, given that different fetching technologies
-     * can produce HTML content with different structure.
+     * can produce HTML content Objects with different structure.
      */
     public abstract void processWordContent();
 }

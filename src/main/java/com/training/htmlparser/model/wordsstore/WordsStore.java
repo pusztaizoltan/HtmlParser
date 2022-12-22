@@ -2,6 +2,7 @@ package com.training.htmlparser.model.wordsstore;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,5 +30,5 @@ public abstract class WordsStore {
      * Select one or multiple element from contentMap field.
      * Selection strategy is specific to and implemented by subClasses
      */
-    public abstract Map<String, Integer> select();
+    public abstract List<String> select();
 }
