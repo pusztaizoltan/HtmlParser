@@ -2,14 +2,16 @@ package com.training.htmlparser.model.wordsstore;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-// TODO ZP: better name and/or javadoc
 public abstract class WordsStore {
     protected final Map<String, Integer> contentMap = new HashMap<>();
     private final Set<String> skipWords = new HashSet<>();
+
+    public void addSkipWord(String word) {
+        skipWords.add(word.toLowerCase());
+    }
 
     private boolean isSkippable(String word) {
         return skipWords.contains(word);
@@ -18,14 +20,14 @@ public abstract class WordsStore {
     public void store(String word) { // TODO ZP: @Nullable, @Nonnull annotations (javax)
         String rawWord = word.toLowerCase();
         if (!isSkippable(rawWord)) {
-            Integer value = contentMap.get(word);
-            contentMap.put(word, value == null ? 1 : value + 1);
+            Integer wordCount = contentMap.get(rawWord);
+            contentMap.put(rawWord, wordCount == null ? 1 : wordCount + 1);
         }
     }
 
-    public void addSkipWord(String word) {
-        skipWords.add(word.toLowerCase());
-    }
-
-    public abstract List<String> select();
+    /**
+     * Select one or multiple element from ContentMap field.
+     * Selection strategy is specific to and implemented by subClasses
+     */
+    public abstract Map<String, Integer> select();
 }
