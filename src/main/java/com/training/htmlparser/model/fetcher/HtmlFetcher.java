@@ -13,8 +13,9 @@ public class HtmlFetcher extends Fetcher {
     private String splitPattern = "";
 
     public HtmlFetcher(String url) {
+        super(url);
         try {
-            this.connection = new URL(url).openConnection();
+            this.connection = new URL(super.url).openConnection();
             fetch();
         } catch (IOException e) {
             e.printStackTrace();

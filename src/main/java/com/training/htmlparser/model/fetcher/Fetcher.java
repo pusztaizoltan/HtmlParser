@@ -8,6 +8,11 @@ import java.util.Set;
 public abstract class Fetcher {
     protected final List<String> wordContent = new ArrayList<>();
     protected final Set<String> skipTags = new HashSet();
+    protected final String url;
+
+    protected Fetcher(String url) {
+        this.url = url;
+    }
 
     public List<String> getWordContent() {
         return this.wordContent;
@@ -17,6 +22,9 @@ public abstract class Fetcher {
         this.skipTags.add(tag);
     }
 
-    // TODO ZP: javadoc
+    /**
+     * Select one or multiple element from contentMap field.
+     * Selection strategy is specific to and implemented by subClasses
+     */
     public abstract void processWordContent();
 }

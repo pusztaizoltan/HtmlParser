@@ -13,8 +13,9 @@ public class JsoupFetcher extends Fetcher {
     private Document doc;
 
     public JsoupFetcher(String url) {
+        super(url);
         try {
-            this.doc = Jsoup.connect(url).get();
+            this.doc = Jsoup.connect(super.url).get();
         } catch (IOException e) {
             // TODO ZP: logging
             // java util logger
