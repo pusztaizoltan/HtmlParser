@@ -5,8 +5,19 @@ import com.training.htmlparser.model.fetcher.JsoupFetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
 import com.training.htmlparser.model.wordsstore.WordsStoreOfTenMostFrequentNonStream;
 
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+
 public class App {
+    static void setGlobalLoggerVisibility(Level level) {
+        for (Handler handler : LogManager.getLogManager().getLogger("").getHandlers()) {
+            handler.setLevel(level);
+        }
+    }
+
     public static void main(String[] args) {
+        setGlobalLoggerVisibility(Level.INFO);
         // outOfThread
         WordsStore wordsStore = new WordsStoreOfTenMostFrequentNonStream();
         // inThread

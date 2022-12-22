@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WordsStoreOfTenMostFrequent extends WordsStore {
+    private static final int SELECTION_LIMIT = 10;
+
     @Override
     public List<String> select() {
         LinkedHashMap<String, Integer> selected = getTenMostFrequent();
@@ -20,7 +22,7 @@ public class WordsStoreOfTenMostFrequent extends WordsStore {
 
     @NotNull
     private String formatToMargin(@NotNull Map.Entry<String, Integer> entry, int margin) {
-        var keyLength = entry.getKey().length();
+        int keyLength = entry.getKey().length();
         return entry.getKey() + " ".repeat(margin - keyLength + 1) + ":" + entry.getValue();
     }
 
@@ -29,7 +31,7 @@ public class WordsStoreOfTenMostFrequent extends WordsStore {
         return super.contentMap.entrySet()
                                .stream()
                                .sorted((i, j) -> j.getValue() - i.getValue())
-                               .limit(10)
+                               .limit(SELECTION_LIMIT)
                                .collect(Collectors.toMap(
                                        Map.Entry::getKey,
                                        Map.Entry::getValue,
