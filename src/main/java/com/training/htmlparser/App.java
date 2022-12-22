@@ -36,7 +36,7 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        wordsStore.selectBy(new TenMostFrequentNonStream()).forEach(System.out::println);
+        wordsStore.selectBy(TenMostFrequentNonStream.getInstance()).forEach(System.out::println);
     }
 
     public static Runnable fetcherThread(String url) {

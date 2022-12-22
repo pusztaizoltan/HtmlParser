@@ -2,6 +2,7 @@ package com.training.htmlparser.model.wordsstore;
 
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.Selector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,7 +29,7 @@ public class WordsStore {
     public void store(@NotNull String word) {
         String rawWord = word.toLowerCase();
         if (!isSkippable(rawWord)) {
-            Integer wordCount = contentMap.get(rawWord);
+            @Nullable Integer wordCount = contentMap.get(rawWord);
             contentMap.put(rawWord, wordCount == null ? 1 : wordCount + 1);
             LOGGER.log(Level.INFO, String.format("Word{%s: %s } stored", rawWord, wordCount == null ? 1 : wordCount + 1));
         } else {
