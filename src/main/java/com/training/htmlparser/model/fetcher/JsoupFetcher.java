@@ -6,9 +6,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class JsoupFetcher extends Fetcher {
     private static final Logger LOGGER = Logger.getLogger(JsoupFetcher.class.getName());
@@ -32,13 +34,19 @@ public class JsoupFetcher extends Fetcher {
     private void recursiveExtract(@NotNull Element element) {
         if (!super.skipTags.contains(element.nodeName())) {
             if (element.hasText()) {
-                // dont separate pl. I'am stb.
-//                super.wordContent.addAll(List.of(element.text().replaceAll("[^\\w]+", " ").split(" "))); // TODO ZP: I would replace special characters with different char
-                super.wordContent.addAll(List.of(element.text().replaceAll("[^a-zA-Z]+", " ").split(" "))); // TODO ZP: I would replace special characters with different char
+                super.wordContent.addAll(textToWords(element.text()));
             }
         }
         for (Element child : element.children()) {
             recursiveExtract(child);
         }
+    }
+
+    @NotNull
+    private List<String> textToWords(@NotNull String text) {
+        return Arrays.stream(text.split(" "))
+                     .map(word -> word.replaceAll("^[^\\w]+", "").replaceAll("[^\\w]+$", ""))
+                     .filter(word->!word.isBlank())
+                     .collect(Collectors.toList());
     }
 }

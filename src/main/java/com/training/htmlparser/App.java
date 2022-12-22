@@ -17,7 +17,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        setGlobalLoggerVisibility(Level.INFO);
+        setGlobalLoggerVisibility(Level.SEVERE);
         // outOfThread
         WordsStore wordsStore = new WordsStoreOfTenMostFrequentNonStream();
         // inThread
