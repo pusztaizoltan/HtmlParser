@@ -4,26 +4,32 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-public class TenMostFrequentNonStream implements Selector {
+public class TenMostFrequentNonStream implements ContentAccess<Map<String, Integer>> {
     private static final Comparator<Map.Entry<String, Integer>> BY_DESCENDING_VALUE = (a, b) -> b.getValue() - a.getValue();
     private static final int SELECTION_LIMIT = 10;
-    @Nullable
-    private static TenMostFrequentNonStream instance;
+    private final Map<String, Integer> content = new LinkedHashMap<>();
 
-    private TenMostFrequentNonStream() {
+    @Override
+    public @NotNull Map<String, Integer> getContent() {
+        return this.content;
     }
 
-    public static TenMostFrequentNonStream getInstance() {
-        if (instance == null) {
-            instance = new TenMostFrequentNonStream();
-        }
-        return instance;
+    @Override
+    public void store(@NotNull String word) {
+        Integer wordCount = content.get(word);
+        this.content.put(word, wordCount == null ? 1 : wordCount + 1);
+    }
+
+    @Override
+    public @NotNull List<String> select() {
+        return selectFrom(this.content);
     }
 
     @Override
@@ -52,4 +58,6 @@ public class TenMostFrequentNonStream implements Selector {
         }
         return collection;
     }
+
+
 }

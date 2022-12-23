@@ -1,27 +1,31 @@
 package com.training.htmlparser.model.wordsstore.selectoralgorithms;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TenMostFrequent implements Selector {
+public class TenMostFrequent implements ContentAccess<Map<String, Integer>> {
     private static final int SELECTION_LIMIT = 10;
-    @Nullable
-    private static TenMostFrequent instance;
+    private final Map<String, Integer> content = new LinkedHashMap<>();
 
-    private TenMostFrequent() {
+    public @NotNull Map<String, Integer> getContent() {
+        return content;
     }
 
-    public static TenMostFrequent getInstance() {
-        if (instance == null) {
-            instance = new TenMostFrequent();
-        }
-        return instance;
+    @Override
+    public void store(@NotNull String word) {
+        Integer wordCount = content.get(word);
+        this.content.put(word, wordCount == null ? 1 : wordCount + 1);
+    }
+
+    @Override
+    public @NotNull List<String> select() {
+        return selectFrom(this.content);
     }
 
     @Override
@@ -33,14 +37,12 @@ public class TenMostFrequent implements Selector {
                        .collect(Collectors.toList());
     }
 
-    @NotNull
-    private String formatToMargin(@NotNull Map.Entry<String, Integer> entry, int margin) {
+    private @NotNull String formatToMargin(@NotNull Map.Entry<String, Integer> entry, int margin) {
         int keyLength = entry.getKey().length();
         return entry.getKey() + " ".repeat(margin - keyLength + 1) + ":" + entry.getValue();
     }
 
-    @NotNull
-    private LinkedHashSet<Map.Entry<String, Integer>> getTenMostFrequent(@NotNull Map<String, Integer> content) {
+    private @NotNull LinkedHashSet<Map.Entry<String, Integer>> getTenMostFrequent(@NotNull Map<String, Integer> content) {
         return content.entrySet()
                       .stream()
                       .sorted((i, j) -> j.getValue() - i.getValue())

@@ -7,6 +7,8 @@ import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFreque
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequentNonStream;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -15,8 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 
 public class App {
-    static WordsStore wordsStore = new WordsStore();
-    static List<String> urls = List.of("https://justinjackson.ca/words.html");
+    static WordsStore wordsStore = new WordsStore(new TenMostFrequent());
+    static List<String> urls = List.of("https://justinjackson.ca/words.html", "https://justinjackson.ca/words.html");
 
     static void setGlobalLoggerVisibility(Level level) {
         for (Handler handler : LogManager.getLogManager().getLogger("").getHandlers()) {
@@ -36,7 +38,7 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        wordsStore.selectBy(TenMostFrequentNonStream.getInstance()).forEach(System.out::println);
+        wordsStore.selectBy(new TenMostFrequentNonStream()).forEach(System.out::println);
     }
 
     public static Runnable fetcherThread(String url) {

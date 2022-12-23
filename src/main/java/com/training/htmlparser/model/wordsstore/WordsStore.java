@@ -1,21 +1,24 @@
 package com.training.htmlparser.model.wordsstore;
 
-import com.training.htmlparser.model.wordsstore.selectoralgorithms.Selector;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.ContentAccess;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class WordsStore {
     private static final Logger LOGGER = Logger.getLogger(WordsStore.class.getName());
-    protected final Map<String, Integer> contentMap = new HashMap<>();
     private final Set<String> skipWords = new HashSet<>();
+    private final ContentAccess defaultContentAccess;
+
+    public WordsStore(ContentAccess contentAccess) {
+        this.defaultContentAccess = contentAccess;
+    }
 
     public void addSkipWord(@NotNull String word) {
         skipWords.add(word.toLowerCase());
@@ -29,9 +32,8 @@ public class WordsStore {
     public void store(@NotNull String word) {
         String rawWord = word.toLowerCase();
         if (!isSkippable(rawWord)) {
-            @Nullable Integer wordCount = contentMap.get(rawWord);
-            contentMap.put(rawWord, wordCount == null ? 1 : wordCount + 1);
-            LOGGER.log(Level.INFO, String.format("Word{%s: %s } stored", rawWord, wordCount == null ? 1 : wordCount + 1));
+            this.defaultContentAccess.store(rawWord);
+            LOGGER.log(Level.INFO, String.format("Word{%s} stored", rawWord));
         } else {
             LOGGER.log(Level.INFO, String.format("Word{%s} skipped", rawWord));
         }
@@ -49,12 +51,22 @@ public class WordsStore {
     }
 
     /**
-     * Select one or multiple element from contentMap field.
-     * Selection strategies are specific to and
-     * implemented in switchable interface implementations
+     * Select one or multiple element from content,
+     * using default selector algorithm.
      */
     @NotNull
-    public List<String> selectBy(@NotNull Selector selectorAlgorithm){
-        return selectorAlgorithm.selectFrom(this.contentMap);
-    };
+    public List<String> select() {
+        return this.defaultContentAccess.select();
+    }
+
+    /**
+     * Select one or multiple element from content.
+     * using selector algorithm of other ContentAccess class
+     * provided that content types are compatible.
+     */
+    @NotNull
+    public List<String> selectBy(@NotNull ContentAccess contentAccessAlgorithm) {
+        // todo type missmatch test
+        return contentAccessAlgorithm.selectFrom(this.defaultContentAccess.getContent());
+    }
 }
