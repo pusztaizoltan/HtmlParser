@@ -70,7 +70,7 @@ public class WordsStore {
     // todo added new mediator access to new selection type
     public @NotNull List<String> selectHead(int param) {
         UniqueHeadSelector access;
-        try{
+        try {
             access = (UniqueHeadSelector) this.defaultContentAccess;
         } catch (ClassCastException e) {
             throw new UnsupportedOperationException();

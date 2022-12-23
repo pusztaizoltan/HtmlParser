@@ -46,7 +46,7 @@ public class JsoupFetcher extends Fetcher {
     private List<String> textToWords(@NotNull String text) {
         return Arrays.stream(text.split(" "))
                      .map(word -> word.replaceAll("^[^\\w]+", "").replaceAll("[^\\w]+$", ""))
-                     .filter(word->!word.isBlank())
+                     .filter(word -> !word.isBlank())
                      .collect(Collectors.toList());
     }
 }

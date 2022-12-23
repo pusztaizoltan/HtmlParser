@@ -10,11 +10,10 @@ public class UniqueHeadSelector implements ContentAccess<List<String>> {
 
     @Override
     public void store(@NotNull String word) {
-        if(!content.contains(word)) {
+        if (!content.contains(word)) {
             this.content.add(word);
         }
     }
-
 
     @Override
     public @NotNull List<String> getContent() {
