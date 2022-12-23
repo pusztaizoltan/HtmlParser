@@ -22,7 +22,7 @@ public class UniqueHeadSelector implements ContentAccess<List<String>> {
 
     @Override
     public @NotNull List<String> select() {
-        return getContent();
+        return new ArrayList<>(getContent());
     }
 
     @Override
