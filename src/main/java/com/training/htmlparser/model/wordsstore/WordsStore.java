@@ -1,10 +1,9 @@
 package com.training.htmlparser.model.wordsstore;
 
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.ContentAccess;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.HeadSelector;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,8 +53,7 @@ public class WordsStore {
      * Select one or multiple element from content,
      * using default selector algorithm.
      */
-    @NotNull
-    public List<String> select() {
+    public @NotNull List<String> select() {
         return this.defaultContentAccess.select();
     }
 
@@ -64,9 +62,19 @@ public class WordsStore {
      * using selector algorithm of other ContentAccess class
      * provided that content types are compatible.
      */
-    @NotNull
-    public List<String> selectBy(@NotNull ContentAccess contentAccessAlgorithm) {
+    public @NotNull List<String> selectBy(@NotNull ContentAccess contentAccessAlgorithm) {
         // todo type missmatch test
         return contentAccessAlgorithm.selectFrom(this.defaultContentAccess.getContent());
+    }
+
+    // todo added new mediator access to new selection type
+    public @NotNull List<String> selectHead(int param) {
+        HeadSelector access;
+        try{
+            access = (HeadSelector) this.defaultContentAccess;
+        } catch (ClassCastException e) {
+            throw new UnsupportedOperationException();
+        }
+        return access.selectByParameter(param);
     }
 }

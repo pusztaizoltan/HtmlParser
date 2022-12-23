@@ -13,14 +13,14 @@ public class TenMostFrequent implements ContentAccess<Map<String, Integer>> {
     private static final int SELECTION_LIMIT = 10;
     private final Map<String, Integer> content = new LinkedHashMap<>();
 
-    public @NotNull Map<String, Integer> getContent() {
-        return content;
-    }
-
     @Override
     public void store(@NotNull String word) {
         Integer wordCount = content.get(word);
         this.content.put(word, wordCount == null ? 1 : wordCount + 1);
+    }
+
+    public @NotNull Map<String, Integer> getContent() {
+        return content;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class TenMostFrequent implements ContentAccess<Map<String, Integer>> {
     }
 
     @Override
-    public List<String> selectFrom(Map<String, Integer> content) {
+    public @NotNull List<String> selectFrom(Map<String, Integer> content) {
         Set<Map.Entry<String, Integer>> selected = getTenMostFrequent(content);
         int formatterMargin = selected.stream().mapToInt(entry -> entry.getKey().length()).max().orElse(0);
         return selected.stream()
