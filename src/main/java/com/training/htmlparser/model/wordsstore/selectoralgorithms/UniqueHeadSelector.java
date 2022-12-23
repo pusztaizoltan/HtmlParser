@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniqueHeadSelector implements ContentAccess<List<String>> {
+public class UniqueHeadSelector implements ContentAccess<List<String>> ,ParametrizedSelector{
     private final List<String> content = new ArrayList<>();
 
     @Override
@@ -31,9 +31,10 @@ public class UniqueHeadSelector implements ContentAccess<List<String>> {
     }
 
     // todo added new selection type
+    @Override
     public @NotNull List<String> selectByParameter(int length) {
         if (length < 0) {
-            return this.content;
+            return select();
         }
         return new ArrayList<>(this.content.subList(0, Math.min(length, content.size()))); // defensive copy as subList return view
     }

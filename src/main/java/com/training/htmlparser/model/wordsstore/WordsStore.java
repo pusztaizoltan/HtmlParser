@@ -1,6 +1,7 @@
 package com.training.htmlparser.model.wordsstore;
 
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.ContentAccess;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.ParametrizedSelector;
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.UniqueHeadSelector;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,10 +69,10 @@ public class WordsStore {
     }
 
     // todo added new mediator access to new selection type
-    public @NotNull List<String> selectHead(int param) {
-        UniqueHeadSelector access;
+    public @NotNull List<String> selectByParameter(int param) {
+        ParametrizedSelector access;
         try {
-            access = (UniqueHeadSelector) this.defaultContentAccess;
+            access = (ParametrizedSelector) this.defaultContentAccess;
         } catch (ClassCastException e) {
             throw new UnsupportedOperationException();
         }
