@@ -35,6 +35,6 @@ public class UniqueHeadSelector implements ContentAccess<List<String>> {
         if (length < 0) {
             return this.content;
         }
-        return new ArrayList<>(this.content.subList(0, Math.max(length, content.size()))); // defensive copy as subList return view
+        return new ArrayList<>(this.content.subList(0, Math.min(length, content.size()))); // defensive copy as subList return view
     }
 }
