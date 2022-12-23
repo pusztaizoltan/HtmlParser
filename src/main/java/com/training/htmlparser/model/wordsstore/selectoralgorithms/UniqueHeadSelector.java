@@ -5,12 +5,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeadSelector implements ContentAccess<List<String>> {
+public class UniqueHeadSelector implements ContentAccess<List<String>> {
     private final List<String> content = new ArrayList<>();
 
     @Override
     public void store(@NotNull String word) {
-        this.content.add(word);
+        if(!content.contains(word)) {
+            this.content.add(word);
+        }
     }
 
 
