@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Custom DOM element in contrast of standard DOM include
+ * - text-content as child of open-tag element with "!TEXT" name
+ * - close-tag as last child of open-tag element with "_!CLOSED" name-suffix
+ * - in line format-tag as child of open-tag element
+ */
 public class Element {
     private static final Logger LOGGER = Logger.getLogger(Element.class.getName());
     private final List<Element> children = new LinkedList<>();
