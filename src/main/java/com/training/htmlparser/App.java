@@ -1,9 +1,9 @@
 package com.training.htmlparser;
 
+import com.training.htmlparser.model.fetcher.CustomDOMFetcher;
 import com.training.htmlparser.model.fetcher.Fetcher;
-import com.training.htmlparser.model.fetcher.JsoupFetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
-import com.training.htmlparser.model.wordsstore.selectoralgorithms.UniqueLengthOrderer;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequent;
 import com.training.htmlparser.util.CustomLogFormatter;
 
 import java.util.List;
@@ -17,8 +17,9 @@ import java.util.logging.LogManager;
 
 public class App {
     static Formatter customLogFormatter = new CustomLogFormatter();
-    static WordsStore wordsStore = new WordsStore(new UniqueLengthOrderer());
-    static List<String> urls = List.of("https://justinjackson.ca/words.html", "https://justinjackson.ca/words.html");
+    static WordsStore wordsStore = new WordsStore(new TenMostFrequent());
+    static List<String> urls = List.of("https://justinjackson.ca/words.html","https://justinjackson.ca/words.html");
+
 
     static void configGlobalLogger(Level level, Formatter formatter) {
         for (Handler handler : LogManager.getLogManager().getLogger("").getHandlers()) {
@@ -44,7 +45,8 @@ public class App {
 
     public static Runnable fetcherThread(String url) {
         return () -> {
-            Fetcher fetcher = new JsoupFetcher(url);
+            Fetcher fetcher = new CustomDOMFetcher(url);
+//            Fetcher fetcher = new JsoupFetcher(url);
             fetcher.addSkipTag("head");
             fetcher.addSkipTag("style");
             fetcher.processWordContent();
