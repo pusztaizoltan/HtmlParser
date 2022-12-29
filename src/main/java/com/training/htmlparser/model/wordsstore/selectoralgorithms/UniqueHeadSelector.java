@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniqueHeadSelector implements ContentAccess<List<String>> ,ParametrizedSelector{
+public class UniqueHeadSelector implements ContentAccess<List<String>>, ParametrizedSelector {
     private final List<String> content = new ArrayList<>();
 
     @Override

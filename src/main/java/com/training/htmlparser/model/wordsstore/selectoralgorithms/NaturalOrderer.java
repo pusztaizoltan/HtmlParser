@@ -25,7 +25,6 @@ public class NaturalOrderer implements ContentAccess<List<String>> {
     }
 
     @Override
-    // todo added new selection functionality
     public @NotNull List<String> selectFrom(@NotNull List<String> content) {
         List<String> result = new ArrayList<>(content);
         Collections.sort(result);

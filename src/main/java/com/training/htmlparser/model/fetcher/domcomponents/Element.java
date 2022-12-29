@@ -44,9 +44,7 @@ public class Element {
                 this.name = nextPart.getName() + "_!CLOSED";
                 this.parent.parent.addChildFrom(trimmedHtmlText);
             }
-            case END -> {
-                this.parent.children.remove(this);
-            }
+            case END -> this.parent.children.remove(this);
         }
     }
 
@@ -78,7 +76,7 @@ public class Element {
     private String logMessage(Part nextPart, String trimmedHtmlText) {
         StringBuilder message = new StringBuilder("\u001B[32m" + "\n|\t\t");
         String progress = trimmedHtmlText.substring(0, Math.min(75, trimmedHtmlText.length())).replaceAll("\n", "\n|\t\t");
-        String report = String.format("\n|PART:%s\n|TYPE:%s PARENT:%s",
+        String report = String.format("\n| NEXT_PART: %s\n| TYPE:      %s\n| PARENT:    %s",
                 nextPart.getPart().substring(0, Math.min(40, nextPart.getPart().length())).replace("\n", " ").replace("  ", " ").trim(),
                 nextPart.getType(),
                 (parent == null ? "ROOT" : this.parent.name));

@@ -2,7 +2,6 @@ package com.training.htmlparser.model.wordsstore;
 
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.ContentAccess;
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.ParametrizedSelector;
-import com.training.htmlparser.model.wordsstore.selectoralgorithms.UniqueHeadSelector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -63,12 +62,23 @@ public class WordsStore {
      * using selector algorithm of other ContentAccess class
      * provided that content types are compatible.
      */
+    // todo added compatibility test
     public @NotNull List<String> selectBy(@NotNull ContentAccess contentAccessAlgorithm) {
-        // todo type missmatch test
-        return contentAccessAlgorithm.selectFrom(this.defaultContentAccess.getContent());
+        String importType = contentType(contentAccessAlgorithm);
+        String ownType = contentType(this.defaultContentAccess);
+        if (importType.equals(ownType)) {
+            return contentAccessAlgorithm.selectFrom(this.defaultContentAccess.getContent());
+        } else {
+            throw new UnsupportedOperationException("INCOMPATIBLE CONTENT: " + importType + " VS. " + ownType);
+        }
     }
 
-    // todo added new mediator access to new selection type
+    private String contentType(ContentAccess contentAccess) {
+        String extensionOf = contentAccess.getClass().getGenericInterfaces()[0].toString();
+        int genericPartStart = extensionOf.indexOf("<");
+        return extensionOf.substring(genericPartStart);
+    }
+
     public @NotNull List<String> selectByParameter(int param) {
         ParametrizedSelector access;
         try {

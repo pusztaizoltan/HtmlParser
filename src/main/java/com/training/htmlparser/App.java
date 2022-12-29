@@ -4,6 +4,8 @@ import com.training.htmlparser.model.fetcher.CustomDOMFetcher;
 import com.training.htmlparser.model.fetcher.Fetcher;
 import com.training.htmlparser.model.wordsstore.WordsStore;
 import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequent;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.TenMostFrequentNonStream;
+import com.training.htmlparser.model.wordsstore.selectoralgorithms.UniqueLengthOrderer;
 import com.training.htmlparser.util.CustomLogFormatter;
 
 import java.util.List;
@@ -18,8 +20,7 @@ import java.util.logging.LogManager;
 public class App {
     static Formatter customLogFormatter = new CustomLogFormatter();
     static WordsStore wordsStore = new WordsStore(new TenMostFrequent());
-    static List<String> urls = List.of("https://justinjackson.ca/words.html","https://justinjackson.ca/words.html");
-
+    static List<String> urls = List.of("https://justinjackson.ca/words.html", "https://justinjackson.ca/words.html");
 
     static void configGlobalLogger(Level level, Formatter formatter) {
         for (Handler handler : LogManager.getLogManager().getLogger("").getHandlers()) {
@@ -40,7 +41,10 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        wordsStore.select().forEach(System.out::println);
+        // todo this will throw unsupported operation
+//        wordsStore.selectBy(new UniqueLengthOrderer()).forEach(System.out::println)
+        // todo this won't throw unsupported operation
+        wordsStore.selectBy(new TenMostFrequent()).forEach(System.out::println);
     }
 
     public static Runnable fetcherThread(String url) {
