@@ -45,6 +45,8 @@ public class App {
 //        wordsStore.selectBy(new UniqueLengthOrderer()).forEach(System.out::println)
         // todo this won't throw unsupported operation
         wordsStore.selectBy(new TenMostFrequent()).forEach(System.out::println);
+        System.out.println("---------------");
+        wordsStore.selectBy(new TenMostFrequentNonStream()).forEach(System.out::println);
     }
 
     public static Runnable fetcherThread(String url) {

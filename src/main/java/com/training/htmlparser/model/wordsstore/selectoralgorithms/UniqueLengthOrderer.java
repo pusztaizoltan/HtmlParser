@@ -8,9 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class UniqueLengthOrderer implements ContentAccess<List<String>> {
-    //        private static final Comparator<String> BY_LENGTH = (a, b) -> (b.length() - (int) Math.sin(a.length())*2 + a.compareTo(b));
-    private static final Comparator<String> BY_LENGTH = (a, b) ->
-    {
+    private static final Comparator<String> BY_LENGTH = (a, b) -> {
         int result = b.length() - a.length();
         return result == 0 ? (int) Math.signum(a.compareTo(b)) : result;
     };

@@ -13,8 +13,8 @@ public class Part {
         autoType(part);
         autoName(part);
     }
-
-    public static Part nextFrom(String htmlText) {
+    // todo does it need syncronization?
+    public synchronized static Part nextFrom(String htmlText) {
         if (htmlText.startsWith("<")) {
             int tagEnd = htmlText.indexOf('>') + 1;
             return new Part(htmlText.substring(0, tagEnd));

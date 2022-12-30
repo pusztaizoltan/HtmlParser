@@ -11,7 +11,10 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class TenMostFrequentNonStream implements ContentAccess<Map<String, Integer>> {
-    private static final Comparator<Map.Entry<String, Integer>> BY_DESCENDING_VALUE = (a, b) -> b.getValue() - a.getValue();
+    private static final Comparator<Map.Entry<String, Integer>> BY_DESCENDING_VALUE = (a, b) -> {
+        int result = b.getValue() - a.getValue();
+        return result == 0 ? (int) Math.signum(a.getKey().compareTo(b.getKey())) : result;
+    };
     private static final int SELECTION_LIMIT = 10;
     private final Map<String, Integer> content = new LinkedHashMap<>();
 
@@ -52,6 +55,7 @@ public class TenMostFrequentNonStream implements ContentAccess<Map<String, Integ
             if (collection.size() > SELECTION_LIMIT) {
                 collection.pollLast();
             }
+
         }
         return collection;
     }
