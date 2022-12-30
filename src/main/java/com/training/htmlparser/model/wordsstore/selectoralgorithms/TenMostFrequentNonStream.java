@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class TenMostFrequentNonStream implements ContentAccess<Map<String, Integer>> {
     private static final Comparator<Map.Entry<String, Integer>> BY_DESCENDING_VALUE = (a, b) -> {
         int result = b.getValue() - a.getValue();
-        return result == 0 ? (int) Math.signum(a.getKey().compareTo(b.getKey())) : result;
+        return result == 0 ? 1 : result;
     };
     private static final int SELECTION_LIMIT = 10;
     private final Map<String, Integer> content = new LinkedHashMap<>();
