@@ -15,36 +15,20 @@ public class Element {
     private static final Logger LOGGER = Logger.getLogger(Element.class.getName());
     private final List<Element> children = new LinkedList<>();
     private final Element parent;
-    private String name;
-    private String text;
+    private final Part part;
 
     public Element(Element parent, String htmlText) {
-        this.parent = parent;
         String trimmedHtmlText = trimToElement(htmlText);
-        Part nextPart = Part.nextFrom(trimmedHtmlText);
+        this.parent = parent;
+        this.part = Part.nextFrom(trimmedHtmlText);
         synchronized (this) {
-            LOGGER.log(Level.INFO, logMessage(nextPart, trimmedHtmlText));
+            LOGGER.log(Level.INFO, logMessage(this.part, trimmedHtmlText));
         }
-        trimmedHtmlText = trimmedHtmlText.substring(nextPart.getPart().length());
-        switch (nextPart.getType()) {
-            case ROOT_TAG, OPEN_TAG -> {
-                this.name = nextPart.getName();
-                this.addChildFrom(trimmedHtmlText);
-            }
-            case SELF_CLOSED_TAG -> {
-                this.name = nextPart.getName();
-                this.parent.addChildFrom(trimmedHtmlText);
-            }
-            case TEXT -> {
-                this.name = "!TEXT";
-                this.text = nextPart.getPart();
-                this.parent.addChildFrom(trimmedHtmlText);
-            }
-            case CLOSE_TAG -> {
-                this.name = nextPart.getName() + "_!CLOSED";
-                this.parent.parent.addChildFrom(trimmedHtmlText);
-            }
-            case END -> this.parent.children.remove(this);
+        trimmedHtmlText = trimmedHtmlText.substring(this.part.getPart().length());
+        switch (this.part.getType()) {
+            case ROOT_TAG, OPEN_TAG -> this.addChildFrom(trimmedHtmlText);
+            case SELF_CLOSED_TAG, TEXT -> this.parent.addChildFrom(trimmedHtmlText);
+            case CLOSE_TAG -> this.parent.parent.addChildFrom(trimmedHtmlText);
         }
     }
 
@@ -58,15 +42,15 @@ public class Element {
     }
 
     public String nodeName() {
-        return this.name;
+        return this.part.getName();
     }
 
     public boolean hasText() {
-        return this.text != null;
+        return this.part.getType() == PartType.TEXT;
     }
 
     public String getText() {
-        return this.text;
+        return hasText() ? this.part.getPart() : null;
     }
 
     public List<Element> getChildren() {
@@ -79,7 +63,7 @@ public class Element {
         String report = String.format("\n| NEXT_PART: %s\n| TYPE:      %s\n| PARENT:    %s",
                 nextPart.getPart().substring(0, Math.min(40, nextPart.getPart().length())).replace("\n", " ").replace("  ", " ").trim(),
                 nextPart.getType(),
-                (parent == null ? "ROOT" : this.parent.name));
+                (parent == null ? "ROOT" : this.parent.nodeName()));
         message.append(progress);
         message.append("...");
         message.append(report);

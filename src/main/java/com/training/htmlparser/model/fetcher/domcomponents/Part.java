@@ -10,8 +10,8 @@ public class Part {
 
     private Part(String part) {
         this.part = part;
-        autoType(part);
-        autoName(part);
+        autoInit(part);
+
     }
     // todo does it need syncronization?
     public synchronized static Part nextFrom(String htmlText) {
@@ -26,33 +26,28 @@ public class Part {
         }
     }
 
-    private void autoType(String part) {
+    private void autoInit(String part) {
         if (part.equals("<!DOCTYPE html>")) {
             this.type = PartType.ROOT_TAG;
+            this.name = "!DOCUMENT";
         } else if (part.equals("")) {
             this.type = PartType.END;
-        } else if (part.endsWith("/>")) {
-            this.type = PartType.SELF_CLOSED_TAG;
-        } else if (part.startsWith("</")) {
-            this.type = PartType.CLOSE_TAG;
+            this.name = "!END";
         } else if (!part.contains("<") && !part.contains(">")) {
             this.type = PartType.TEXT;
+            this.name = "!TEXT";
         } else {
-            this.type = PartType.OPEN_TAG;
-        }
-    }
-
-    private void autoName(String part) {
-        if (this.type == PartType.TEXT) {
-            this.name = part;
-        } else if (this.type == PartType.ROOT_TAG) {
-            this.name = "!DOCUMENT";
-        } else if (this.type == PartType.END) {
-            this.name = "!END";
-        } else if (this.type == PartType.CLOSE_TAG) {
-            this.name = part.substring(2).replace(">", "");
-        } else {
-            this.name = part.replaceAll(" .*>$", "").replace(">", "").substring(1);
+            String baseName = part.replaceAll("( .*>$)|( />$)|(>$)", "").replace(">", "").substring(1);
+            if (part.startsWith("</")) {
+                this.type = PartType.CLOSE_TAG;
+                this.name = baseName + "_!CLOSED";
+            } else if (part.endsWith("/>")){
+                this.type = PartType.SELF_CLOSED_TAG;
+                this.name = baseName + "_SELF!CLOSED";
+            } else {
+                this.type = PartType.OPEN_TAG;
+                this.name = baseName;
+            }
         }
     }
 

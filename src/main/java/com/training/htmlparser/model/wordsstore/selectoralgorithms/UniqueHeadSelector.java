@@ -30,7 +30,6 @@ public class UniqueHeadSelector implements ContentAccess<List<String>>, Parametr
         throw new UnsupportedOperationException("LimitedSelector doesn't support this operation");
     }
 
-    // todo added new selection type
     @Override
     public @NotNull List<String> selectByParameter(int length) {
         if (length < 0) {
